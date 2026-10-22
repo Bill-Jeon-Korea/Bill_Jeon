@@ -3,11 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Technology profile of B.D. Jeon, with 27+ years of experience across networks, communications, embedded systems and technical operations.">
-  <meta property="og:title" content="B.D. Jeon | Technology Profile">
-  <meta property="og:description" content="Systems analysis, validation, embedded firmware, networks and field operations.">
+  <meta id="page-description" name="description" content="Technology profile of B.D. Jeon, with 27+ years of experience across networks, communications, embedded systems and technical operations.">
   <meta property="og:type" content="website">
-  <title>B.D. Jeon | Technology Profile</title>
+  <title id="page-title">B.D. Jeon | Technology Profile</title>
   <style>
     :root {
       --ink: #14233b;
@@ -34,11 +32,30 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 20px;
       padding: 22px 0;
     }
     .brand { font-weight: 800; letter-spacing: .03em; text-decoration: none; }
-    nav a { color: var(--muted); text-decoration: none; font-size: .92rem; margin-left: 22px; }
+    nav > div { display: flex; align-items: center; gap: 20px; }
+    nav a { color: var(--muted); text-decoration: none; font-size: .92rem; }
     nav a:hover, footer a:hover { color: var(--blue); }
+    #language-toggle {
+      border: 1px solid #c8d6ee;
+      border-radius: 999px;
+      background: var(--paper);
+      color: var(--blue);
+      cursor: pointer;
+      font: inherit;
+      font-size: .84rem;
+      font-weight: 750;
+      padding: 7px 13px;
+      white-space: nowrap;
+    }
+    #language-toggle:hover { background: var(--pale); }
+    .en, .ko { display: inline; }
+    .ko { display: none; }
+    body.lang-ko .en { display: none; }
+    body.lang-ko .ko { display: inline; }
     .hero {
       padding: 76px 0 64px;
       display: grid;
@@ -124,8 +141,7 @@
     @media (max-width: 560px) {
       .wrap { width: min(100% - 28px, 1040px); }
       nav { align-items: flex-start; gap: 12px; }
-      nav div:last-child { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px; }
-      nav a { margin-left: 10px; }
+      nav > div { flex-wrap: wrap; justify-content: flex-end; gap: 8px 12px; }
       .hero { padding-bottom: 36px; }
       section { padding: 36px 0; }
       .grid { grid-template-columns: 1fr; }
@@ -135,14 +151,15 @@
     }
   </style>
 </head>
-<body>
+<body class="lang-en">
   <header class="wrap">
     <nav aria-label="Primary navigation">
       <a class="brand" href="#top">B.D. JEON</a>
       <div>
-        <a href="#career">Career</a>
-        <a href="#about">About</a>
-        <a href="#education">Education & Skills</a>
+        <a href="#career"><span class="en">Career</span><span class="ko">경력</span></a>
+        <a href="#about"><span class="en">About</span><span class="ko">소개</span></a>
+        <a href="#education"><span class="en">Education &amp; Skills</span><span class="ko">학력·기술</span></a>
+        <button id="language-toggle" type="button" aria-label="Switch to Korean">한국어 ↔ English</button>
       </div>
     </nav>
   </header>
@@ -151,148 +168,148 @@
     <section class="wrap hero">
       <div>
         <div class="eyebrow">Technology · Networks · Embedded Systems</div>
-        <h1>Bill Jeon</h1>
-        <p>I understand the needs of the field and connect them to technology systems that operate reliably. With experience across networks, communications and embedded systems, I work across analysis, validation, deployment and ongoing operations.</p>
+        <h1><span class="en">Bill Jeon</span><span class="ko">전병도</span></h1>
+        <p><span class="en">I understand the needs of the field and connect them to technology systems that operate reliably. With experience across networks, communications and embedded systems, I work across analysis, validation, deployment and ongoing operations.</span><span class="ko">현장의 요구를 이해하고, 안정적으로 운영되는 기술 시스템으로 연결합니다. 네트워크·통신·임베디드 분야에서 쌓아온 경험을 바탕으로 시스템 분석, 검증, 구축과 운영을 수행해 왔습니다.</span></p>
         <div class="chips" aria-label="Areas of expertise">
-          <span class="chip">Systems Analysis & Validation</span>
-          <span class="chip">Networks & Communications</span>
-          <span class="chip">Firmware & Embedded Systems</span>
-          <span class="chip">CMS & Digital Signage</span>
-          <span class="chip">Technical Support & Maintenance</span>
+          <span class="chip"><span class="en">Systems Analysis &amp; Validation</span><span class="ko">시스템 분석·검증</span></span>
+          <span class="chip"><span class="en">Networks &amp; Communications</span><span class="ko">네트워크·통신</span></span>
+          <span class="chip"><span class="en">Firmware &amp; Embedded Systems</span><span class="ko">펌웨어·임베디드</span></span>
+          <span class="chip"><span class="en">CMS &amp; Digital Signage</span><span class="ko">CMS·디지털 사이니지</span></span>
+          <span class="chip"><span class="en">Technical Support &amp; Maintenance</span><span class="ko">기술 지원·유지보수</span></span>
         </div>
       </div>
       <aside class="hero-card">
         <div class="num">27+</div>
-        <p>Years of hands-on technology experience, including six years working and running a business in Australia.</p>
+        <p><span class="en">Years of hands-on technology experience, including six years working and running a business in Australia.</span><span class="ko">년간의 기술 실무 경험<br>호주 현지 근무 및 자영업 경험 6년</span></p>
       </aside>
     </section>
 
     <section class="wrap" id="about">
-      <h2>Profile</h2>
+      <h2><span class="en">Profile</span><span class="ko">프로필</span></h2>
       <div class="intro">
-        <p>My experience spans network equipment development and technical support, communications systems, digital signage, bus monitors and set-top box operations. I bring hardware, software and field operations together to analyze problems and build practical solutions. More recently, my work has included home automation feature reviews, validation of blind-spot detection (BSD) systems for work sites, and the development of content management solutions.</p>
+        <p><span class="en">My experience spans network equipment development and technical support, communications systems, digital signage, bus monitors and set-top box operations. I bring hardware, software and field operations together to analyze problems and build practical solutions. More recently, my work has included home automation feature reviews, validation of blind-spot detection (BSD) systems for work sites, and the development of content management solutions.</span><span class="ko">네트워크 장비 개발과 기술지원에서 출발해 통신 시스템, 디지털 사이니지, 버스 모니터 및 셋톱박스 운영까지 폭넓게 경험했습니다. 하드웨어와 소프트웨어, 현장 운영을 함께 살피며 문제를 분석하고 실행 가능한 해결책을 만드는 데 강점이 있습니다. 최근에는 홈오토메이션 기능 검토, 작업현장 안전감지(BSD) 시스템 검증, 콘텐츠 관리 솔루션 개발 업무를 맡고 있습니다.</span></p>
       </div>
     </section>
 
     <section class="wrap" id="career">
-      <h2>Career</h2>
+      <h2><span class="en">Career</span><span class="ko">주요 경력</span></h2>
       <div class="timeline">
         <article class="job">
-          <div class="date">Nov 2025 – Present</div>
+          <div class="date"><span class="en">Nov 2025 – Present</span><span class="ko">2025.11 – 현재</span></div>
           <figure class="job-visual">
-            <img src="./career-bk-networks.png" alt="Technology engineer reviewing smart-home devices and a work-site safety detection system" loading="lazy" decoding="async">
+            <img src="./career-bk-networks.png" alt="Technology engineer reviewing smart-home devices and a work-site safety detection system" data-alt-en="Technology engineer reviewing smart-home devices and a work-site safety detection system" data-alt-ko="스마트홈 기기와 작업현장 안전감지 시스템을 점검하는 기술 엔지니어" loading="lazy" decoding="async">
           </figure>
           <div>
-            <h3>BK Networks Co., Ltd.</h3>
-            <div class="role">Executive Director, R&D Lab · Systems Analysis, Validation & Firmware</div>
+            <h3><span class="en">BK Networks Co., Ltd.</span><span class="ko">BK네트웍스(주)</span></h3>
+            <div class="role"><span class="en">Executive Director, R&amp;D Lab · Systems Analysis, Validation &amp; Firmware</span><span class="ko">연구소 임원 · 시스템 분석·검증, 펌웨어</span></div>
             <ul>
-              <li>Review home automation features and product direction.</li>
-              <li>Configure work-site blind-spot detection (BSD) systems, upgrade firmware and validate hardware.</li>
-              <li>Develop CMS and client solutions for digital signage.</li>
+              <li><span class="en">Review home automation features and product direction.</span><span class="ko">홈오토메이션 기능 분석 및 설계 방향 검토</span></li>
+              <li><span class="en">Configure work-site blind-spot detection (BSD) systems, upgrade firmware and validate hardware.</span><span class="ko">작업현장 안전감지(BSD) 솔루션 시스템 구성, 펌웨어 업그레이드 및 하드웨어 검증</span></li>
+              <li><span class="en">Develop CMS and client solutions for digital signage.</span><span class="ko">디지털 사이니지용 CMS 및 연동 클라이언트 솔루션 개발</span></li>
             </ul>
           </div>
         </article>
 
         <article class="job">
-          <div class="date">Apr 2023 – Oct 2025</div>
+          <div class="date"><span class="en">Apr 2023 – Oct 2025</span><span class="ko">2023.04 – 2025.10</span></div>
           <figure class="job-visual">
-            <img src="./career-korea-bus-broadcast.png" alt="City bus digital advertising monitors, set-top boxes and a content management system" loading="lazy" decoding="async">
+            <img src="./career-korea-bus-broadcast.png" alt="City bus digital advertising monitors, set-top boxes and a content management system" data-alt-en="City bus digital advertising monitors, set-top boxes and a content management system" data-alt-ko="시내버스 디지털 광고 모니터와 셋톱박스, 콘텐츠 관리 시스템" loading="lazy" decoding="async">
           </figure>
           <div>
-            <h3>Korea Bus Broadcasting Co., Ltd.</h3>
-            <div class="role">Technical Team General Manager & Team Lead · Information & Communications</div>
+            <h3><span class="en">Korea Bus Broadcasting Co., Ltd.</span><span class="ko">한국버스방송(주)</span></h3>
+            <div class="role"><span class="en">Technical Team General Manager &amp; Team Lead · Information &amp; Communications</span><span class="ko">기술팀 부장·파트장 · 정보통신</span></div>
             <ul>
-              <li>Operated advertising monitors on Seoul city buses and managed CMS and scheduling systems.</li>
-              <li>Monitored wireless networks connected to set-top boxes and M2M data usage.</li>
-              <li>Installed, supported and maintained dedicated broadcast set-top boxes for clinics nationwide.</li>
+              <li><span class="en">Operated advertising monitors on Seoul city buses and managed CMS and scheduling systems.</span><span class="ko">서울 시내버스 광고 모니터 운영 및 CMS·편성 시스템 관리</span></li>
+              <li><span class="en">Monitored wireless networks connected to set-top boxes and M2M data usage.</span><span class="ko">셋톱박스 연동 무선 네트워크와 M2M 데이터 사용량 모니터링</span></li>
+              <li><span class="en">Installed, supported and maintained dedicated broadcast set-top boxes for clinics nationwide.</span><span class="ko">전국 한의원 전용 방송 셋톱박스 설치, 기술지원 및 사후관리</span></li>
             </ul>
           </div>
         </article>
 
         <article class="job">
-          <div class="date">Sep 2021 – Feb 2023</div>
+          <div class="date"><span class="en">Sep 2021 – Feb 2023</span><span class="ko">2021.09 – 2023.02</span></div>
           <figure class="job-visual">
-            <img src="./career-ninehightech.png" alt="Field installation of bus monitors and embedded controllers with a network inspection" loading="lazy" decoding="async">
+            <img src="./career-ninehightech.png" alt="Field installation of bus monitors and embedded controllers with a network inspection" data-alt-en="Field installation of bus monitors and embedded controllers with a network inspection" data-alt-ko="버스 모니터와 임베디드 컨트롤러를 설치하고 네트워크를 점검하는 현장" loading="lazy" decoding="async">
           </figure>
           <div>
-            <h3>Nine High Tech</h3>
-            <div class="role">R&D General Manager & Team Lead · Embedded Systems</div>
+            <h3><span class="en">Nine High Tech</span><span class="ko">나인하이테크</span></h3>
+            <div class="role"><span class="en">R&amp;D General Manager &amp; Team Lead · Embedded Systems</span><span class="ko">연구소 부장·팀장 · 임베디드</span></div>
             <ul>
-              <li>Deployed city bus monitor systems in Gwangju and operated their CMS-connected networks.</li>
-              <li>Managed development of the monitor mainboard client app and M2M lines.</li>
-              <li>Provided technical support to maintenance partners.</li>
+              <li><span class="en">Deployed city bus monitor systems in Gwangju and operated their CMS-connected networks.</span><span class="ko">광주 시내버스 모니터 시스템 구축 및 CMS 연동 네트워크 운영</span></li>
+              <li><span class="en">Managed development of the monitor mainboard client app and M2M lines.</span><span class="ko">모니터 내장 메인보드 클라이언트 앱 개발 관리와 M2M 회선 관리</span></li>
+              <li><span class="en">Provided technical support to maintenance partners.</span><span class="ko">유지보수 협력사 기술지원</span></li>
             </ul>
           </div>
         </article>
 
         <article class="job">
-          <div class="date">Jan 2015 – Dec 2020</div>
+          <div class="date"><span class="en">Jan 2015 – Dec 2020</span><span class="ko">2015.01 – 2020.12</span></div>
           <figure class="job-visual">
-            <img src="./career-best-electronics-sydney.png" alt="Technician repairing appliances, computers and an office network in a Sydney workshop" loading="lazy" decoding="async">
+            <img src="./career-best-electronics-sydney.png" alt="Technician repairing appliances, computers and an office network in a Sydney workshop" data-alt-en="Technician repairing appliances, computers and an office network in a Sydney workshop" data-alt-ko="시드니 작업장에서 가전제품과 컴퓨터, 사무실 네트워크를 수리하는 기술자" loading="lazy" decoding="async">
           </figure>
           <div>
-            <h3>Best Electrical & Electronics Repair</h3>
-            <div class="role">Sales Team Lead · Sydney, Australia</div>
+            <h3><span class="en">Best Electrical &amp; Electronics Repair</span><span class="ko">베스트전기전자수리</span></h3>
+            <div class="role"><span class="en">Sales Team Lead · Sydney, Australia</span><span class="ko">영업팀 팀장 · 호주 시드니</span></div>
             <ul>
-              <li>Provided on-site repair and maintenance for appliances, computers and peripherals.</li>
-              <li>Built and sold PCs, and set up and troubleshot small-office networks.</li>
+              <li><span class="en">Provided on-site repair and maintenance for appliances, computers and peripherals.</span><span class="ko">가전제품, 컴퓨터 및 주변기기 출장 수리·유지보수</span></li>
+              <li><span class="en">Built and sold PCs, and set up and troubleshot small-office networks.</span><span class="ko">PC 조립·판매 및 소규모 사무실 네트워크 구축·장애 대응</span></li>
             </ul>
           </div>
         </article>
 
         <article class="job">
-          <div class="date">Jul 2008 – Oct 2014</div>
+          <div class="date"><span class="en">Jul 2008 – Oct 2014</span><span class="ko">2008.07 – 2014.10</span></div>
           <figure class="job-visual">
-            <img src="./career-wolf-and-fox-computer.png" alt="Computer store workstation for desktop assembly and network equipment installation" loading="lazy" decoding="async">
+            <img src="./career-wolf-and-fox-computer.png" alt="Computer store workstation for desktop assembly and network equipment installation" data-alt-en="Computer store workstation for desktop assembly and network equipment installation" data-alt-ko="컴퓨터 매장에서 데스크톱 조립과 네트워크 장비 설치를 하는 모습" loading="lazy" decoding="async">
           </figure>
           <div>
-            <h3>Wolf & Fox Computer</h3>
-            <div class="role">Branch Manager, Gumi Jinpyeong Branch</div>
+            <h3><span class="en">Wolf &amp; Fox Computer</span><span class="ko">늑대와여우컴퓨터</span></h3>
+            <div class="role"><span class="en">Branch Manager, Gumi Jinpyeong Branch</span><span class="ko">구미진평대리점 지점장</span></div>
             <ul>
-              <li>Assembled, sold, repaired and maintained computers.</li>
-              <li>Built small-business networks and installed network equipment.</li>
+              <li><span class="en">Assembled, sold, repaired and maintained computers.</span><span class="ko">컴퓨터 조립·판매·수리 및 유지보수</span></li>
+              <li><span class="en">Built small-business networks and installed network equipment.</span><span class="ko">소규모 기업 네트워크 구축과 네트워크 장비 설치</span></li>
             </ul>
           </div>
         </article>
 
         <article class="job">
-          <div class="date">Jun 2005 – Jun 2008</div>
+          <div class="date"><span class="en">Jun 2005 – Jun 2008</span><span class="ko">2005.06 – 2008.06</span></div>
           <figure class="job-visual">
-            <img src="./career-dawin-network.png" alt="Engineering team developing network security equipment and circuit boards" loading="lazy" decoding="async">
+            <img src="./career-dawin-network.png" alt="Engineering team developing network security equipment and circuit boards" data-alt-en="Engineering team developing network security equipment and circuit boards" data-alt-ko="네트워크 보안 장비와 회로 기판을 개발하는 엔지니어링 팀" loading="lazy" decoding="async">
           </figure>
           <div>
-            <h3>Dawin Network</h3>
-            <div class="role">Technical Sales Manager · Security Equipment OEM/ODM</div>
+            <h3><span class="en">Dawin Network</span><span class="ko">다윈네트워크</span></h3>
+            <div class="role"><span class="en">Technical Sales Manager · Security Equipment OEM/ODM</span><span class="ko">기술영업팀 과장 · 보안장비 OEM/ODM</span></div>
             <ul>
-              <li>Developed and sold network and security systems, while supporting development with overseas partners.</li>
+              <li><span class="en">Developed and sold network and security systems, while supporting development with overseas partners.</span><span class="ko">네트워크·보안 시스템 개발 및 판매, 해외 협력사 개발 지원</span></li>
             </ul>
           </div>
         </article>
 
         <article class="job">
-          <div class="date">Jul 2001 – Mar 2005</div>
+          <div class="date"><span class="en">Jul 2001 – Mar 2005</span><span class="ko">2001.07 – 2005.03</span></div>
           <figure class="job-visual">
-            <img src="./career-hanaa-system.png" alt="Engineers coordinating a network equipment R&D project and production transfer" loading="lazy" decoding="async">
+            <img src="./career-hanaa-system.png" alt="Engineers coordinating a network equipment R&D project and production transfer" data-alt-en="Engineers coordinating a network equipment R&D project and production transfer" data-alt-ko="네트워크 장비 연구개발 프로젝트와 생산 이관을 준비하는 엔지니어들" loading="lazy" decoding="async">
           </figure>
           <div>
-            <h3>Hanaa System</h3>
-            <div class="role">R&D Associate · Project Management & Planning</div>
+            <h3><span class="en">Hanaa System</span><span class="ko">한아시스템</span></h3>
+            <div class="role"><span class="en">R&amp;D Associate · Project Management &amp; Planning</span><span class="ko">연구소 대리 · R&amp;D 과제관리 및 기획</span></div>
             <ul>
-              <li>Coordinated joint development with overseas technology partners and managed project schedules and production transfer.</li>
+              <li><span class="en">Coordinated joint development with overseas technology partners and managed project schedules and production transfer.</span><span class="ko">해외 기술 제휴사와 공동개발 조정, 프로젝트 일정 및 양산 이관 관리</span></li>
             </ul>
           </div>
         </article>
 
         <article class="job">
-          <div class="date">Jan 1998 – Apr 2001</div>
+          <div class="date"><span class="en">Jan 1998 – Apr 2001</span><span class="ko">1998.01 – 2001.04</span></div>
           <figure class="job-visual">
-            <img src="./career-i-teck-sydney.png" alt="1990s Sydney internet cafe with CRT computers and network installation work" loading="lazy" decoding="async">
+            <img src="./career-i-teck-sydney.png" alt="1990s Sydney internet cafe with CRT computers and network installation work" data-alt-en="1990s Sydney internet cafe with CRT computers and network installation work" data-alt-ko="1990년대 시드니 인터넷 카페의 CRT 컴퓨터와 네트워크 설치 작업" loading="lazy" decoding="async">
           </figure>
           <div>
             <h3>i-teckcommunication</h3>
-            <div class="role">Technical Support Supervisor · Sydney, Australia</div>
+            <div class="role"><span class="en">Technical Support Supervisor · Sydney, Australia</span><span class="ko">기술지원팀 주임·계장 · 호주 시드니</span></div>
             <ul>
-              <li>Supported internet cafe setup and operations, PC assembly and repair, and small-network projects.</li>
+              <li><span class="en">Supported internet cafe setup and operations, PC assembly and repair, and small-network projects.</span><span class="ko">인터넷 카페 구축·운영 지원, PC 조립·수리 및 소규모 네트워크 지원</span></li>
             </ul>
           </div>
         </article>
@@ -300,28 +317,28 @@
     </section>
 
     <section class="wrap" id="education">
-      <h2>Education & Skills</h2>
+      <h2><span class="en">Education &amp; Skills</span><span class="ko">학력 및 기술</span></h2>
       <div class="grid">
         <div class="panel">
-          <h3>Education</h3>
+          <h3><span class="en">Education</span><span class="ko">학력</span></h3>
           <p><strong>IT Network Security, Advanced Diploma</strong><br>TAFE Meadowbank, NSW, Australia · 2018</p>
-          <p><strong>Electrical Engineering</strong><br>Dong-Eui University · 1998</p>
+          <p><strong><span class="en">Electrical Engineering</span><span class="ko">전자공학과</span></strong><br><span class="en">Dong-Eui University</span><span class="ko">동의대학교</span> · 1998</p>
         </div>
         <div class="panel">
-          <h3>Core Capabilities</h3>
-          <p>Network and communications system deployment and operations</p>
-          <p>CMS, set-top box and digital signage integration</p>
-          <p>Embedded systems, firmware and hardware validation</p>
-          <p>Field technical support, troubleshooting and maintenance</p>
+          <h3><span class="en">Core Capabilities</span><span class="ko">핵심 역량</span></h3>
+          <p><span class="en">Network and communications system deployment and operations</span><span class="ko">네트워크·통신 시스템 구축 및 운영</span></p>
+          <p><span class="en">CMS, set-top box and digital signage integration</span><span class="ko">CMS·셋톱박스·디지털 사이니지 연동</span></p>
+          <p><span class="en">Embedded systems, firmware and hardware validation</span><span class="ko">임베디드 시스템·펌웨어·하드웨어 검증</span></p>
+          <p><span class="en">Field technical support, troubleshooting and maintenance</span><span class="ko">현장 기술지원·장애 분석·유지보수</span></p>
         </div>
         <div class="panel">
-          <h3>Certification & Languages</h3>
-          <p>Wireless Equipment Engineer certification</p>
-          <p>Business conversation in English</p>
+          <h3><span class="en">Certification &amp; Languages</span><span class="ko">자격 및 언어</span></h3>
+          <p><span class="en">Wireless Equipment Engineer certification</span><span class="ko">무선설비기사</span></p>
+          <p><span class="en">Business conversation in English</span><span class="ko">영어 비즈니스 회화 가능</span></p>
         </div>
         <div class="panel">
-          <h3>How I Work</h3>
-          <p>I connect the full delivery cycle—from planning and development through installation, operations and after-sales support—and value close collaboration between field teams and engineers.</p>
+          <h3><span class="en">How I Work</span><span class="ko">업무 방식</span></h3>
+          <p><span class="en">I connect the full delivery cycle—from planning and development through installation, operations and after-sales support—and value close collaboration between field teams and engineers.</span><span class="ko">기획·개발·설치·운영·사후관리까지 전 과정을 연결하고, 현장과 기술팀 사이의 협업을 중시합니다.</span></p>
         </div>
       </div>
     </section>
@@ -329,10 +346,43 @@
 
   <footer>
     <div class="wrap">
-      Bill Jeon <span aria-hidden="true">·</span> Technology Profile ·
-      <a href="https://github.com/Bill-Jeon-Korea">GitHub Profile</a>
-      <small>This page is based on my résumé. Personal contact details and precise addresses have been omitted for public presentation.</small>
+      <span class="en">Bill Jeon <span aria-hidden="true">·</span> Technology Profile · <a href="https://github.com/Bill-Jeon-Korea">GitHub Profile</a></span>
+      <span class="ko">전병도 <span aria-hidden="true">·</span> 기술 프로필 · <a href="https://github.com/Bill-Jeon-Korea">GitHub 프로필</a></span>
+      <small><span class="en">This page is based on my résumé. Personal contact details and precise addresses have been omitted for public presentation.</span><span class="ko">이 페이지는 이력서 내용을 바탕으로 작성되었으며, 공개를 위해 개인 연락처와 상세 주소 등은 제외했습니다.</span></small>
     </div>
   </footer>
+
+  <script>
+    const languageToggle = document.getElementById('language-toggle');
+    const pageTitle = document.getElementById('page-title');
+    const pageDescription = document.getElementById('page-description');
+    const imageElements = document.querySelectorAll('img[data-alt-en]');
+    const languageCopy = {
+      en: {
+        title: 'B.D. Jeon | Technology Profile',
+        description: 'Technology profile of B.D. Jeon, with 27+ years of experience across networks, communications, embedded systems and technical operations.'
+      },
+      ko: {
+        title: '전병도 | 기술 프로필',
+        description: '네트워크·통신·임베디드 시스템 분야에서 27년 이상의 실무 경험을 쌓아온 전병도의 기술 프로필입니다.'
+      }
+    };
+    function setLanguage(language) {
+      const isKorean = language === 'ko';
+      document.body.classList.toggle('lang-ko', isKorean);
+      document.documentElement.lang = language;
+      pageTitle.textContent = languageCopy[language].title;
+      pageDescription.setAttribute('content', languageCopy[language].description);
+      imageElements.forEach(function (image) {
+        image.alt = isKorean ? image.dataset.altKo : image.dataset.altEn;
+      });
+      languageToggle.textContent = isKorean ? 'English ↔ 한국어' : '한국어 ↔ English';
+      languageToggle.setAttribute('aria-label', isKorean ? 'Switch to English' : '한국어로 전환');
+    }
+    languageToggle.addEventListener('click', function () {
+      setLanguage(document.documentElement.lang === 'en' ? 'ko' : 'en');
+    });
+    setLanguage('en');
+  </script>
 </body>
 </html>
