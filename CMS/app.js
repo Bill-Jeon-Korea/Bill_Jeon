@@ -4,6 +4,7 @@ const viewMeta = {
   devices: ["모니터 등록", "매장 내 10개 코너 모니터의 등록 정보와 연결 상태를 확인합니다."],
   playlists: ["플레이리스트 관리", "코너별 미디어 재생 순서와 대상 모니터 매핑을 확인합니다."],
   urgent: ["긴급 광고", "운영 중인 코너 화면에 긴급 할인 콘텐츠를 우선 삽입합니다."],
+  layouts: ["화면구성", "모니터 화면을 최대 4개 영역으로 나누고 크기·위치·겹침 순서를 설정합니다."],
 };
 
 const mediaItems = [
@@ -66,6 +67,140 @@ const playlists = [
 ];
 
 let selectedPlaylistId = 1;
+let selectedLayoutDeviceId = 2;
+let selectedLayoutRegionIndex = 0;
+const layoutRegionColors = ["#4f8cff", "#34c49a", "#a86df2", "#f38b5d"];
+let layoutDraft = createOverlayLayout(devices.find((device) => device.id === selectedLayoutDeviceId));
+
+function createOverlayLayout(device) {
+  return {
+    name: `${device?.name || "모니터"} 오버레이 광고 화면`,
+    enabled: true,
+    aspectRatio: "16:9",
+    regions: [
+      { name: "A · 메인", playlistId: 2, x: 18, y: 10, width: 64, height: 80, zIndex: 1 },
+      { name: "B · 상단", playlistId: 1, x: 25, y: 0, width: 50, height: 14, zIndex: 3 },
+      { name: "C · 좌측", playlistId: 3, x: 0, y: 10, width: 22, height: 80, zIndex: 2 },
+      { name: "D · 하단", playlistId: 5, x: 25, y: 86, width: 50, height: 14, zIndex: 4 },
+    ],
+  };
+}
+
+function createSingleLayout(device) {
+  return {
+    name: `${device?.name || "모니터"} 기본 화면`,
+    enabled: true,
+    aspectRatio: "16:9",
+    regions: [{ name: "A · 전체", playlistId: device?.id || 1, x: 0, y: 0, width: 100, height: 100, zIndex: 1 }],
+  };
+}
+
+function clamp(value, minimum, maximum) {
+  return Math.min(maximum, Math.max(minimum, value));
+}
+
+function normalizeRegion(region) {
+  region.x = Math.round(clamp(Number(region.x) || 0, 0, 95) * 10) / 10;
+  region.y = Math.round(clamp(Number(region.y) || 0, 0, 95) * 10) / 10;
+  region.width = Math.round(clamp(Number(region.width) || 5, 5, 100 - region.x) * 10) / 10;
+  region.height = Math.round(clamp(Number(region.height) || 5, 5, 100 - region.y) * 10) / 10;
+  region.zIndex = Math.round(clamp(Number(region.zIndex) || 1, 1, 4));
+}
+
+function playlistOptions(selectedId) {
+  return playlists.map((playlist) => `<option value="${playlist.id}" ${playlist.id === selectedId ? "selected" : ""}>${playlist.name}</option>`).join("");
+}
+
+function renderLayoutDeviceOptions() {
+  const select = document.querySelector("#layoutDevice");
+  select.innerHTML = devices.map((device) => `<option value="${device.id}" ${device.id === selectedLayoutDeviceId ? "selected" : ""}>${device.name} · ${device.zone}</option>`).join("");
+}
+
+function renderLayoutEditor() {
+  document.querySelector("#layoutName").value = layoutDraft.name;
+  document.querySelector("#layoutEnabled").checked = layoutDraft.enabled;
+  document.querySelector("#layoutAspectRatio").value = layoutDraft.aspectRatio;
+  document.querySelector("#layoutRegionCount").textContent = `${layoutDraft.regions.length} / 4 영역`;
+  document.querySelector("#addLayoutRegion").disabled = layoutDraft.regions.length >= 4;
+
+  const canvas = document.querySelector("#layoutCanvas");
+  canvas.style.setProperty("--layout-ratio", layoutDraft.aspectRatio.replace(":", " / "));
+  canvas.classList.toggle("disabled", !layoutDraft.enabled);
+  canvas.innerHTML = layoutDraft.regions.map((region, index) => {
+    const playlist = playlists.find((item) => item.id === region.playlistId);
+    return `<div class="layout-region ${index === selectedLayoutRegionIndex ? "selected" : ""}" data-layout-index="${index}" style="left:${region.x}%;top:${region.y}%;width:${region.width}%;height:${region.height}%;z-index:${region.zIndex};--region-color:${layoutRegionColors[index]}">
+      <span class="layout-region-playlist">${playlist?.name || "미지정"}</span>
+      <span class="layout-region-label">${region.name}</span>
+      <span class="resize-handle" aria-label="영역 크기 조절"></span>
+    </div>`;
+  }).join("");
+
+  document.querySelector("#layoutRegionEditors").innerHTML = layoutDraft.regions.map((region, index) => `<div class="layout-region-editor ${index === selectedLayoutRegionIndex ? "selected" : ""}" data-layout-index="${index}" style="--region-color:${layoutRegionColors[index]}">
+    <span class="region-letter">${String.fromCharCode(65 + index)}</span>
+    <label>영역명<input data-layout-field="name" value="${region.name}" maxlength="40"></label>
+    <label>플레이리스트<select data-layout-field="playlistId">${playlistOptions(region.playlistId)}</select></label>
+    <label>X (%)<input data-layout-field="x" type="number" min="0" max="95" step="0.1" value="${region.x}"></label>
+    <label>Y (%)<input data-layout-field="y" type="number" min="0" max="95" step="0.1" value="${region.y}"></label>
+    <label>너비 (%)<input data-layout-field="width" type="number" min="5" max="100" step="0.1" value="${region.width}"></label>
+    <label>높이 (%)<input data-layout-field="height" type="number" min="5" max="100" step="0.1" value="${region.height}"></label>
+    <label>겹침 순서<input data-layout-field="zIndex" type="number" min="1" max="4" step="1" value="${region.zIndex}"></label>
+    <button type="button" class="button danger remove-region" data-remove-region ${layoutDraft.regions.length === 1 ? "disabled" : ""}>삭제</button>
+  </div>`).join("");
+}
+
+function selectLayoutRegion(index) {
+  selectedLayoutRegionIndex = index;
+  document.querySelectorAll("[data-layout-index]").forEach((element) => {
+    element.classList.toggle("selected", Number(element.dataset.layoutIndex) === index);
+  });
+}
+
+function updateLayoutRegionDom(index) {
+  const region = layoutDraft.regions[index];
+  const element = document.querySelector(`.layout-region[data-layout-index="${index}"]`);
+  if (element) {
+    element.style.left = `${region.x}%`;
+    element.style.top = `${region.y}%`;
+    element.style.width = `${region.width}%`;
+    element.style.height = `${region.height}%`;
+  }
+  ["x", "y", "width", "height"].forEach((field) => {
+    const input = document.querySelector(`.layout-region-editor[data-layout-index="${index}"] [data-layout-field="${field}"]`);
+    if (input) input.value = region[field];
+  });
+}
+
+function startLayoutPointerEdit(event) {
+  const regionElement = event.target.closest(".layout-region");
+  if (!regionElement || !layoutDraft.enabled) return;
+  event.preventDefault();
+  const index = Number(regionElement.dataset.layoutIndex);
+  const region = layoutDraft.regions[index];
+  const bounds = document.querySelector("#layoutCanvas").getBoundingClientRect();
+  const resizing = Boolean(event.target.closest(".resize-handle"));
+  const start = { clientX: event.clientX, clientY: event.clientY, x: region.x, y: region.y, width: region.width, height: region.height };
+  selectLayoutRegion(index);
+
+  const move = (moveEvent) => {
+    const deltaX = (moveEvent.clientX - start.clientX) / bounds.width * 100;
+    const deltaY = (moveEvent.clientY - start.clientY) / bounds.height * 100;
+    if (resizing) {
+      region.width = clamp(start.width + deltaX, 5, 100 - region.x);
+      region.height = clamp(start.height + deltaY, 5, 100 - region.y);
+    } else {
+      region.x = clamp(start.x + deltaX, 0, 100 - region.width);
+      region.y = clamp(start.y + deltaY, 0, 100 - region.height);
+    }
+    normalizeRegion(region);
+    updateLayoutRegionDom(index);
+  };
+  const stop = () => {
+    document.removeEventListener("pointermove", move);
+    document.removeEventListener("pointerup", stop);
+  };
+  document.addEventListener("pointermove", move);
+  document.addEventListener("pointerup", stop, { once: true });
+}
 
 function formatDuration(totalSeconds) {
   const hours = Math.floor(totalSeconds / 3600);
@@ -186,6 +321,86 @@ document.addEventListener("click", (event) => {
   }
 });
 
+document.querySelector("#layoutDevice").addEventListener("change", (event) => {
+  selectedLayoutDeviceId = Number(event.currentTarget.value);
+  selectedLayoutRegionIndex = 0;
+  layoutDraft = createOverlayLayout(devices.find((device) => device.id === selectedLayoutDeviceId));
+  renderLayoutEditor();
+});
+
+document.querySelector("#layoutName").addEventListener("input", (event) => {
+  layoutDraft.name = event.currentTarget.value;
+});
+
+document.querySelector("#layoutEnabled").addEventListener("change", (event) => {
+  layoutDraft.enabled = event.currentTarget.checked;
+  document.querySelector("#layoutCanvas").classList.toggle("disabled", !layoutDraft.enabled);
+});
+
+document.querySelector("#layoutAspectRatio").addEventListener("change", (event) => {
+  layoutDraft.aspectRatio = event.currentTarget.value;
+  renderLayoutEditor();
+});
+
+document.querySelector("#addLayoutRegion").addEventListener("click", () => {
+  if (layoutDraft.regions.length >= 4) return;
+  const index = layoutDraft.regions.length;
+  const presets = [
+    { x: 0, y: 0, width: 100, height: 100 },
+    { x: 65, y: 0, width: 35, height: 100 },
+    { x: 0, y: 70, width: 65, height: 30 },
+    { x: 65, y: 65, width: 35, height: 35 },
+  ];
+  layoutDraft.regions.push({ name: String.fromCharCode(65 + index), playlistId: playlists[index]?.id || 1, ...presets[index], zIndex: index + 1 });
+  selectedLayoutRegionIndex = index;
+  renderLayoutEditor();
+});
+
+document.querySelector("#resetLayout").addEventListener("click", () => {
+  layoutDraft = createSingleLayout(devices.find((device) => device.id === selectedLayoutDeviceId));
+  selectedLayoutRegionIndex = 0;
+  renderLayoutEditor();
+});
+
+document.querySelector("#layoutCanvas").addEventListener("pointerdown", startLayoutPointerEdit);
+document.querySelector("#layoutCanvas").addEventListener("click", (event) => {
+  const region = event.target.closest(".layout-region");
+  if (region) selectLayoutRegion(Number(region.dataset.layoutIndex));
+});
+
+document.querySelector("#layoutRegionEditors").addEventListener("click", (event) => {
+  const editor = event.target.closest(".layout-region-editor");
+  if (!editor) return;
+  const index = Number(editor.dataset.layoutIndex);
+  if (event.target.closest("[data-remove-region]")) {
+    if (layoutDraft.regions.length === 1) return;
+    layoutDraft.regions.splice(index, 1);
+    layoutDraft.regions.forEach((region, regionIndex) => { region.zIndex = regionIndex + 1; });
+    selectedLayoutRegionIndex = Math.max(0, Math.min(index, layoutDraft.regions.length - 1));
+    renderLayoutEditor();
+    return;
+  }
+  selectLayoutRegion(index);
+});
+
+document.querySelector("#layoutRegionEditors").addEventListener("input", (event) => {
+  const input = event.target.closest("[data-layout-field]");
+  const editor = event.target.closest(".layout-region-editor");
+  if (!input || !editor) return;
+  const index = Number(editor.dataset.layoutIndex);
+  const region = layoutDraft.regions[index];
+  const field = input.dataset.layoutField;
+  if (field === "name") region.name = input.value;
+  else if (field === "playlistId") region.playlistId = Number(input.value);
+  else region[field] = Number(input.value);
+  normalizeRegion(region);
+  const regionElement = document.querySelector(`.layout-region[data-layout-index="${index}"]`);
+  if (field === "name" && regionElement) regionElement.querySelector(".layout-region-label").textContent = region.name;
+  else if (field === "playlistId" && regionElement) regionElement.querySelector(".layout-region-playlist").textContent = playlists.find((playlist) => playlist.id === region.playlistId)?.name || "미지정";
+  else if (field === "zIndex" && regionElement) regionElement.style.zIndex = region.zIndex;
+  else updateLayoutRegionDom(index);
+});
+
 window.addEventListener("hashchange", () => activateView(location.hash.slice(1) || "overview"));
 
 renderMedia();
@@ -193,4 +408,7 @@ renderDevices();
 renderSelectOptions();
 renderPlaylistList();
 renderPlaylistDetail();
+renderLayoutDeviceOptions();
+renderLayoutEditor();
 activateView(location.hash.slice(1) || "overview");
+
